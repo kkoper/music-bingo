@@ -1,0 +1,33 @@
+{
+  "name": "music-bingo",
+  "version": "1.0.0",
+  "description": "Small application for hosting a musical bingo",
+  "main": "index.js",
+   "scripts": {
+    "build": "npm run build-ts && npm run lint",
+    "build-ts": "tsc",
+    "debug": "npm run build && npm run watch-debug",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "serve": "node dist/index.js",
+    "start": "npm run serve",
+    "watch-ts": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkoper/music-bingo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kkoper/music-bingo/issues"
+  },
+  "homepage": "https://github.com/kkoper/music-bingo#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.25",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
+    "eslint": "^7.19.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
