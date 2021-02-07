@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="./js/bingo.js" ></script>
+    <script type="text/javascript" src="./js/spotify.js" ></script>
+</head>
+
+<body>
+  <button id="btn-join" type="button">Join session!</button>
+  <div id="error-message" style="color: red;"></div>
+  <div id="equalizer" style="display: none;">
+    <img width="648px" src="https://i.gifer.com/Nktn.gif" />
+  </div>
+  <div id="bingo-card-container" style="display: none;" class="bingo-card-baby"></div>
+  <audio muted="true"></audio>
+</body>
+<script lang="javascript">
+    (function() {
+        bingoInit()
+        .then('application initialized')
+        .catch(console.error);
+    })();
+</script>
+
+  <style>
+    body {
+      font-family: monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .marked {
+      background-color: orange;
+    }
+
+    .bingo-card-baby {
+      display: flex;
+      flex-wrap: wrap;
+      border: black 4px solid;
+      width: 620px;
+    }
+
+    .X {
+      background-color: dodgerblue;
+    }
+
+    .bingo-box-baby {
+      height: 100px;
+      flex: 1 0 18%;
+      border: black 4px solid;
+      vertical-align: center;
+      text-align: center;
+      padding: 40 0 -40 0;
+      cursor: pointer;
+    }
+  </style>
+</html>
