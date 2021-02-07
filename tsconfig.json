@@ -7,6 +7,8 @@
         "lib": [
             "DOM",
             "DOM.Iterable",
+            "es2015",
+            "es5",
         ],
         "downlevelIteration": true,
         "noImplicitAny": true,

@@ -1,52 +1,76 @@
+let audioPlayer: HTMLAudioElement;
 
-import { SpotifyUser } from "./models/user";
-const REDIRECT_URI = window.location.href;
-
-function login() {    
-    const url = getLoginURL([
-        "user-read-email"
-    ]);
+async function bingoInit(){
     
-    const width = 450,
-        height = 730,
-        left = (screen.width / 2) - (width / 2),
-        top = (screen.height / 2) - (height / 2);
+    const joinButton = document.getElementById("btn-join");
+    joinButton.addEventListener("click", async function() {
+        joinButton.style.display = "none";
+        await fillBingoCard();
+        setInterval(PollForTrack, 2000);
+    });
 
-    window.open(url,"Spotify","menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=" + width + ", height=" + height + ", top=" + top + ", left=" + left);
+    audioPlayer = document.getElementsByTagName("audio")[0] as HTMLAudioElement;
+    audioPlayer.addEventListener("ended", function(){
+        document
+            .getElementById("equalizer")
+            .style.display = "none";
+
+        console.log("ended song");
+   });
 }
 
-function getLoginURL(scopes: string[]) {
-    return "https://accounts.spotify.com/authorize?client_id=" + CLIENT_ID +
-      "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
-      "&scope=" + encodeURIComponent(scopes.join(" ")) +
-      "&response_type=token";
-}
+async function PollForTrack(){
+    if(audioPlayer.paused === false){
+        console.log("There is currently a track playing, skipping poll");
+        return;
+    }
 
-async function spotifyInit(){
-    const data = window.location.hash?.slice(1);    
-    const accessToken = data?.split("&");
-    const accessPoint = accessToken[0].split("=")[1];
-    
-    if(accessPoint){
-        const userdata = await getUserData(accessPoint);
-        document.getElementById("user-info")
-        .innerHTML = `Authorized as ${userdata.display_name}`;
-    }else{
-        const loginButton = document.getElementById("btn-login");
-        loginButton.style.display = "block";
-        loginButton.addEventListener("click", login);
+    try{
+        console.log("polling for track");
+        const response = await fetch("/api/session/currentTrack");
+        if(response.status === 409){
+            setErrorMessage("No current session, will automaticly join once it starts!");
+            return;
+        }else{
+            setErrorMessage("");
+        }
+        const currentTrack = await response.json() as CurrentTrack;
+
+        const localStorageKey = currentTrack.track.previewUrl;
+        const localStorageValue = localStorage.getItem(localStorageKey);
+        const plays = localStorageKey ? +localStorageValue : 0;
+
+        if(+plays != currentTrack.plays) {
+            playTrack(currentTrack);
+            localStorage.setItem(currentTrack.track.previewUrl, currentTrack.plays.toString());
+        }
+    }catch(e){
+        console.error("Error while polling", e);
     }
 }
 
-async function getUserData(accessToken: string): Promise<SpotifyUser> {
-    const response = await fetch("https://api.spotify.com/v1/me",{
-        headers: {
-           "Authorization": "Bearer " + accessToken
-        }
-    });
-
-    return response.json();
+function setErrorMessage(message:string) {
+    document.getElementById("error-message")
+        .innerHTML = message;
 }
 
+async function playTrack(currentTrack: CurrentTrack){
+    console.log(currentTrack);
+    const audioplayer = document.getElementsByTagName("audio")[0] as HTMLAudioElement;
+    audioplayer.muted = false;
+    audioplayer.src = currentTrack.track.previewUrl;
+    audioplayer.play();
+
+    document
+    .getElementById("equalizer")
+    .style.display = "block";
+}
+
+interface CurrentTrack {
+    plays: number,
+    track: {
+        previewUrl: string
+    }
+}
 
 

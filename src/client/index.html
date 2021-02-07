@@ -5,42 +5,18 @@
     <script type="text/javascript" src="./js/spotify.js" ></script>
 </head>
 
-<body onload="fillBingoCard()">
-    <button id="btn-login" style="display: none;" type="button">spotify login</button>
-    <div id="user-info">
-
-    </div>
-  <div class="bingo-card-baby">
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div id="middle-one" class="bingo-box-baby X">X</div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
-    <div class="bingo-box-baby" onclick="clickedBingoBox(this)"></div>
+<body>
+  <button id="btn-join" type="button">Join session!</button>
+  <div id="error-message" style="color: red;"></div>
+  <div id="equalizer" style="display: none;">
+    <img width="648px" src="https://i.gifer.com/Nktn.gif" />
   </div>
+  <div id="bingo-card-container" style="display: none;" class="bingo-card-baby"></div>
+  <audio muted="true"></audio>
 </body>
 <script lang="javascript">
     (function() {
-        spotifyInit()
+        bingoInit()
         .then('application initialized')
         .catch(console.error);
     })();
@@ -52,6 +28,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
     }
 
     .marked {
@@ -75,8 +52,7 @@
       border: black 4px solid;
       vertical-align: center;
       text-align: center;
-      font-size: xx-large;
-      line-height: 100px;
+      padding: 40 0 -40 0;
       cursor: pointer;
     }
   </style>

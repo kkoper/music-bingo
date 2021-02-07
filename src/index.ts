@@ -1,11 +1,14 @@
-import express from "Express";
-import serveStatic from "serve-static";
-import {join} from "path";
+import { config } from "dotenv";
+import { callbackify } from "util";
+import { startServer } from "./server";
 
-const app =  express();
-app.use(serveStatic(join(__dirname, "client"), {
-    index: ["index.html"]
-}));
+config();
 
-app.listen(8080);
-console.log("Express server served at 8080");
+callbackify(startServer)
+((error) => {
+    if(error){
+        throw error;
+    }
+    console.log("server startup complete");
+});
+

@@ -1,17 +1,26 @@
 
-function fillBingoCard(){
-    const numbers = [...Array(74).keys()];
-    const bingoBoxes = document.getElementsByClassName("bingo-box-baby");
+async function fillBingoCard(){
+    const bingoCard = await fetch("/api/playlist/bingocard")
+        .then(r => r.json());   
+    const boxes = bingoCard.boxes as string[];
 
-    for (const bingoBox of bingoBoxes) {
-        if(bingoBox.id !== "middle-one"){
-        const randomIndex = Math.floor(Math.random() * numbers.length);
-        const number = numbers.splice(randomIndex, 1);
-        bingoBox.innerHTML = (+number + 1).toString();
-        }
+
+    const container = document.getElementById("bingo-card-container");
+
+
+    for (let i = 0; i < boxes.length; i++) {
+        const boxstring = boxes[i];
+        const bingoBox = document.createElement("div");
+        bingoBox.classList.add("bingo-box-baby");
+        bingoBox.addEventListener("click", () => {
+            bingoBox.classList.toggle("marked");
+        });
+        bingoBox.appendChild(document.createTextNode(boxstring));
+        container.appendChild(bingoBox);
+        
     }
-}
 
-function clickedBingoBox(element: Element) {
-    element.classList.toggle("marked");
+    container
+        .style
+        .display = "flex";
 }
