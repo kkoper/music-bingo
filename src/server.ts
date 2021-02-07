@@ -1,6 +1,6 @@
 
 
-import express from "Express";
+import express from "express";
 import serveStatic from "serve-static";
 import {join} from "path";
 import {getBingoCard, getPlaylist, setPlaylist } from "./server/playlist";
