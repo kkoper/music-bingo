@@ -61,20 +61,25 @@ jobs:
         # be deployed to ECS.
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-#     - name: Fill in the new image ID in the Amazon ECS task definition
-#       id: task-def
-#       uses: aws-actions/amazon-ecs-render-task-definition@v1
-#       with:
-#         task-definition: task-definition.json
-#         container-name: sample-app
-#         image: ${{ steps.build-image.outputs.image }}
+    - name: Download task definition
+          run: |
+            aws ecs describe-task-definition --task-definition PipelineStackDeploySpotifyBingobingofargateTaskDefD0150E85 --query taskDefinition > task-definition.json
 
-#     - name: Deploy Amazon ECS task definition
-#       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#       with:
-#         task-definition: ${{ steps.task-def.outputs.task-definition }}
-#         service: sample-app-service
-#         cluster: default
-#         wait-for-service-stability: true
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        container-name: web
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: Deploy-SpotifyBingo-bingofargateServiceB3B7A469-b3YOwuU45NXR
+        cluster: bingo-cluster
+        wait-for-service-stability: true
