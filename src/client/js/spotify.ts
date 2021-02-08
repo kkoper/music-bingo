@@ -17,6 +17,16 @@ async function bingoInit(){
 
         console.log("ended song");
    });
+   
+   //set inital volume to value of range slider
+   volumeChanged();
+
+   document.getElementById("volumeSlider")
+    .addEventListener("input", volumeChanged);
+}
+
+function volumeChanged(){
+    audioPlayer.volume = this.value;
 }
 
 async function PollForTrack(){
