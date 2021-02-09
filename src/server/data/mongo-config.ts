@@ -6,6 +6,7 @@ export const mongoConfig = {
    "port": process.env.mongoPort as unknown as number,
    "username": process.env.mongoUser,
    "password": process.env.mongoPass,
+   "database": process.env.mongoDB,
    synchronize: true,
    logging: true,
    sslCA: [process.env.SSL_CERT],
