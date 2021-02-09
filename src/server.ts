@@ -6,10 +6,9 @@ import {join} from "path";
 import {getBingoCard, getPlaylist, setPlaylist } from "./server/playlist";
 import morgan from "morgan";
 import * as bodyParser from "body-parser";
-import { getCurrentTrack, getSession, nextTrack, startSession } from "./server/session";
+import { endSession, getCurrentTrack, getSession, nextTrack, startSession } from "./server/session";
 import {createConnection} from "typeorm";
 import { mongoConfig } from "./server/data/mongo-config";
-import { deleteSession } from "./server/data/session.repository";
 
 export async function startServer() {
     const app =  express();
@@ -26,7 +25,7 @@ export async function startServer() {
     app.get("/api/playlist/bingocard", asyncHandler(getBingoCard));
 
     app.get("/api/session", asyncHandler(getSession));
-    app.delete("/api/session", asyncHandler(deleteSession));
+    app.delete("/api/session", asyncHandler(endSession));
     app.post("/api/session", asyncHandler(startSession));
     app.post("/api/session/nextTrack", asyncHandler(nextTrack));
     app.get("/api/session/currentTrack", asyncHandler(getCurrentTrack));
