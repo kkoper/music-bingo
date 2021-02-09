@@ -49,7 +49,7 @@ export async function nextTrack(_req: express.Request, res: express.Response){
 
 export async function getCurrentTrack(_req: express.Request, res: express.Response){
     const session = await getCurrentSession();
-    if(!session){
+    if(!session?.currentTrack){
         res
         .status(409)
         .send("no session");
