@@ -8,5 +8,6 @@ export const mongoConfig = {
    "password": process.env.mongoPass,
    synchronize: true,
    logging: true,
+   sslCA: [process.env.SSL_CERT],
    entities: ["dist/server/data/entities/*.js"]
 } as ConnectionOptions;
