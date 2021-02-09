@@ -1,8 +1,5 @@
 import SpotifyWebApi from "spotify-web-api-node";
-import { BingoTrack } from "./models/bingo-track";
-import { getPlaylist } from "./playlist";
-
-
+import { BingoTrack } from "./data/entities/bingo-track";
 
 async function GetSpotifyClient(){
     //implement cachning based on expirytoken
@@ -35,7 +32,7 @@ export async function getPlaylistInformation(playlistId: string) {
         playlist: playlistResponse?.body,
         tracks: tracksResponse?.body?.items
             .map(mapTrack)
-            .filter(t => t.previewUrl)
+            .filter(t => t.previewUrl) as BingoTrack[]
       };
 }
 

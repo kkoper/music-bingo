@@ -1,8 +1,8 @@
 import { config } from "dotenv";
+config();
+import "reflect-metadata";
 import { callbackify } from "util";
 import { startServer } from "./server";
-
-config();
 
 callbackify(startServer)
 ((error) => {

@@ -19,7 +19,7 @@ async function bingoInit(){
    });
    
    //set inital volume to value of range slider
-   volumeChanged();
+   audioPlayer.volume = +(document.getElementById("volumeSlider") as HTMLInputElement).value;
 
    document.getElementById("volumeSlider")
     .addEventListener("input", volumeChanged);

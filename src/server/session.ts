@@ -1,16 +1,13 @@
 import { randomInt } from "crypto";
-import { getCurrentPlaylistId, getCurrentSession, insertSession, saveCurrentTrack } from "./local-storage";
-import { getPlaylistInformation } from "./spotify";
 import express from "express";
+import { getCurrentSession, saveCurrentTrack, deleteSession } from "./data/session.repository";
 
 export async function startSession(_req: express.Request, res: express.Response){
-    const currentPlaylistId = await getCurrentPlaylistId();
-    const playlistInformation = await getPlaylistInformation(currentPlaylistId);
+    const currentSessions = await getCurrentSession();
 
-    const randomIndex = randomInt(0, playlistInformation.tracks.length);
-    const nextTrack = playlistInformation.tracks[randomIndex];
-
-    const session = insertSession(currentPlaylistId, nextTrack);
+    const randomIndex = randomInt(0, currentSessions.tracks.length);
+    const nextTrack = currentSessions.tracks[randomIndex];
+    const session = saveCurrentTrack(nextTrack);
     res
         .status(201)
         .json(session);
@@ -35,10 +32,9 @@ export async function getSession(_req: express.Request, res: express.Response){
 
 export async function nextTrack(_req: express.Request, res: express.Response){
     const session = await getCurrentSession();
-    const playlistInformation = await getPlaylistInformation(session.playlistId);
-    const availableSongs = playlistInformation
+    const availableSongs = session
         .tracks
-        .filter(t => session.playedSongs.find(ps => ps.id != t.id));
+        .filter(t => undefined === session.playedSongs.find(ps => ps.id == t.id));
 
     const randomIndex = randomInt(0, availableSongs.length);
     const newTrack = availableSongs[randomIndex];
@@ -53,7 +49,7 @@ export async function nextTrack(_req: express.Request, res: express.Response){
 
 export async function getCurrentTrack(_req: express.Request, res: express.Response){
     const session = await getCurrentSession();
-    if(!session){
+    if(!session?.currentTrack){
         res
         .status(409)
         .send("no session");
@@ -68,5 +64,10 @@ export async function getCurrentTrack(_req: express.Request, res: express.Respon
 export async function replayTrack(){
     throw new Error("not implemented");}
 
-export async function endSession(){
-    throw new Error("not implemented");}
+export async function endSession(_req: express.Request, res: express.Response){
+    await deleteSession();
+
+    res
+        .status(204)
+        .send();
+}
