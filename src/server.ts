@@ -13,8 +13,12 @@ import { mongoConfig } from "./server/data/mongo-config";
 export async function startServer() {
     const app =  express();
 
-    await createConnection(mongoConfig);
-    app.use(morgan("combined"));
+    try{
+        await createConnection(mongoConfig);
+    } catch(e) {
+        console.error(e);
+    }
+    // app.use(morgan("combined"));
     app.use(bodyParser.urlencoded({
         extended: false
     }));
