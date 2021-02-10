@@ -39,8 +39,10 @@ async function PollForTrack(){
         console.log("polling for track");
         const response = await fetch("/api/session/currentTrack");
         if(response.status === 409){
-            setErrorMessage("No current session, will automaticly join once it starts!");
-            return;
+            localStorage.clear();
+            location.reload();
+        }else if(response.status === 400){
+            setErrorMessage("No song playing, please stand by!");
         }else{
             setErrorMessage("");
         }

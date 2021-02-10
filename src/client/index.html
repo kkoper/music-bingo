@@ -12,15 +12,15 @@
       <img style="margin-left: -15px;"src="https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif" />
     </div>
   </div>
+  <div id="error-message" style="color: black; font-weight: 900;"></div>
   <div id="bingo-card-container" style="display: none;" class="bingo-card-baby"></div>
   <button id="btn-join" type="button">Join session!</button>
-  <div id="error-message" style="color: red;"></div>
   <audio muted="true"></audio>
   <div id="slidecontainer">
     🔊 
     <input type="range" min="0" max="1" value="0.4" step="0.01" class="slider" value="0.4" id="volumeSlider">
-    <a href="#">reset</a>
   </div>
+  <button id="reset-button" style="display: none;" onclick="reset()">reset</button>
 </body>
 <script lang="javascript">
     (function() {
@@ -58,15 +58,21 @@
       font-size: xx-large;
     }
 
-    #btn-join {   
-      width: 300px;
-      height: 35px;
+    button {
+      padding-left: 30px;
+      padding-right: 30px;
+      height: 25px;
       border-radius: 25px;
-      font-weight: bolder;
+      /* font-weight: bolder; */
       border: 0px;
       color: white;
       background-color: rgb(129, 75, 123);
       cursor: pointer;
+    }
+
+    #btn-join {   
+      width: 300px;
+      height: 35px;
     }
 
     #header-container {

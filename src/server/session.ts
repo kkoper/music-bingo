@@ -49,16 +49,28 @@ export async function nextTrack(_req: express.Request, res: express.Response){
 
 export async function getCurrentTrack(_req: express.Request, res: express.Response){
     const session = await getCurrentSession();
-    if(!session?.currentTrack){
+    if(!session){
         res
         .status(409)
         .send("no session");
         return;
     }
 
+    if(!session?.currentTrack){
+        res
+        .status(400)
+        .send("Waiting for session to start");
+        return;
+    }
+
     res
         .status(200)
-        .json(session.currentTrack);
+        .json({
+            plays: session.currentTrack?.plays,
+            track: {
+                previewUrl: session.currentTrack?.track.previewUrl
+            }
+        });
 }
 
 export async function replayTrack(){
