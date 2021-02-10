@@ -6,15 +6,20 @@
 </head>
 
 <body>
-  <button id="btn-join" type="button">Join session!</button>
-  <div id="error-message" style="color: red;"></div>
-  <div id="equalizer" style="display: none;">
-    <img width="648px" src="https://i.gifer.com/Nktn.gif" />
+  <div id="header-container">
+    <div id="equalizer" style="display: none;">
+      <img style="margin-right: -15px;" src="https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif" />
+      <img style="margin-left: -15px;"src="https://i.pinimg.com/originals/cb/17/b8/cb17b80a942d7c317a35ff1324fae12f.gif" />
+    </div>
   </div>
   <div id="bingo-card-container" style="display: none;" class="bingo-card-baby"></div>
+  <button id="btn-join" type="button">Join session!</button>
+  <div id="error-message" style="color: red;"></div>
   <audio muted="true"></audio>
-  <div class="slidecontainer">
+  <div id="slidecontainer">
+    🔊 
     <input type="range" min="0" max="1" value="0.4" step="0.01" class="slider" value="0.4" id="volumeSlider">
+    <a href="#">reset</a>
   </div>
 </body>
 <script lang="javascript">
@@ -32,25 +37,44 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      background: rgb(58,100,180);
+      background: linear-gradient(90deg, rgba(58,100,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
     }
 
     .marked {
-      background-color: orange;
+      background-color: orange; 
     }
 
     .bingo-card-baby {
       display: flex;
       flex-wrap: wrap;
       border: black 4px solid;
-      width: 620px;
+      width: 580px;
+      background-color: cornsilk;
     }
 
-    .X {
-      background-color: dodgerblue;
+    #slidecontainer{
+      display: none;
+      font-size: xx-large;
+    }
+
+    #btn-join {   
+      width: 300px;
+      height: 35px;
+      border-radius: 25px;
+      font-weight: bolder;
+      border: 0px;
+      color: white;
+      background-color: rgb(129, 75, 123);
+      cursor: pointer;
+    }
+
+    #header-container {
+      height: 164px;
     }
 
     .bingo-box-baby {
-      height: 100px;
+      height: 90px;
       flex: 1 0 18%;
       border: black 4px solid;
       vertical-align: center;

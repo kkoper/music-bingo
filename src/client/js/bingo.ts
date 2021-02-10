@@ -19,4 +19,8 @@ async function fillBingoCard(){
     container
         .style
         .display = "flex";
+
+    document.getElementById("slidecontainer")
+        .style
+        .display = "block";    
 }
